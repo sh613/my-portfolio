@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css?family=Heebo:900&display=swap");
+
+:root {
+  --size: 60px;
+  --world-x: 0;
+  --world-y: 0;
+}
+
+body,
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  font-size: var(--size);
+  font-family: "Heebo", sans-serif;
+  line-height: 1.25;
+  overflow: hidden;
+  background: radial-gradient(
+    circle,
+    rgba(245, 255, 147, 1) 0%,
+    rgba(233, 253, 45, 1) 100%
+  );
+}
+
+.hello {
+  transform-origin: 80% 80%;
+  animation: wave 200ms steps(3, end) alternate infinite;
+}
+
+.world {
+  position: relative;
+  margin-left: 1vmin;
+}
+
+.world:before,
+.world:after {
+  --spin-duration: 550ms;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  animation: spin var(--spin-duration) steps(3, end) infinite;
+}
+
+.world:before {
+  content: "🌍";
+  animation-delay: calc(var(--spin-duration) / -1.75);
+}
+
+.world:after {
+  content: "🌏";
+  animation-delay: calc(var(--spin-duration) / -4);
+}
+
+.face {
+  position: absolute;
+  opacity: 1;
+  user-select: none;
+  animation: face 800ms cubic-bezier(0.36, 0, 0.66, -0.56) forwards;
+}
+
+@keyframes face {
+  0% {
+    opacity: 0;
+    transform: scale(0.1);
+  }
+  15% {
+    opacity: 1;
+  }
+  35% {
+    transform: rotate(calc(var(--world-x) * 0.1deg)) scale(1);
+  }
+  100% {
+    transform: translate(
+        calc((var(--world-x) * -1px) - calc(var(--size) / 2)),
+        calc((var(--world-y) * -1px) - calc(var(--size) / 1.5))
+      )
+      scale(0.1);
+  }
+}
+
+@keyframes wave {
+  to {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes spin {
+  50% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
